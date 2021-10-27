@@ -19,7 +19,7 @@ public class ProductItem {
 
     private Long id;
     @NotBlank(message = "Enter product name")
-    @Pattern(regexp = "[a-zA-z]*", message = "The name should contain only letters")
+    @Pattern(regexp = "[a-zA-Z]*", message = "The name should contain only letters")
     private String name;
     @DecimalMin(value = "0.0", inclusive = false, message = "Invalid product price")
     @Digits(integer=3, fraction=2)
@@ -159,8 +159,6 @@ public class ProductItem {
         private BigDecimal discount;
         private Integer count;
         private String description;
-
-        private String actualPrice;
 
         private Builder() {
         }

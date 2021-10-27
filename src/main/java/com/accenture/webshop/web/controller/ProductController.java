@@ -2,12 +2,12 @@ package com.accenture.webshop.web.controller;
 
 import com.accenture.webshop.model.ProductItem;
 import com.accenture.webshop.service.ProductService;
-import com.accenture.webshop.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,8 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.constraints.Min;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 
 @Validated
 @Controller
@@ -55,10 +56,14 @@ public class ProductController {
     public String getProductById(@PathVariable @Min(value = 0L, message = "The value must be positive") Long id, Model model) {
         try {
             Optional<ProductItem> productItem = service.getProductById(id);
-            ProductItem product = productItem.get();
-            model.addAttribute("productItem", productItem.get());
-            model.addAttribute("id", id);
-            return productEditDelete;
+            if (productItem.isPresent()) {
+                model.addAttribute("productItem", productItem.get());
+                model.addAttribute("id", id);
+                return productEditDelete;
+            }
+            else {
+                return notFound;
+            }
         } catch (Exception e) {
             return notFound;
         }
@@ -73,12 +78,14 @@ public class ProductController {
     @PostMapping(path = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     public String addProduct(@ModelAttribute("productItem") @Validated ProductItem productItem, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute(FLASH_ATTR_ERROR_MESSAGE, Objects.requireNonNull(bindingResult.getFieldError().getDefaultMessage()));
-            return "redirect:" + "/products/add/";
+            redirectAttributes.addFlashAttribute(FLASH_ATTR_ERROR_MESSAGE,
+                    ofNullable(bindingResult.getFieldError())
+                            .map(FieldError::getDefaultMessage).orElse("error"));
+            return "redirect:/products/add/";
         }
         service.saveProduct(productItem);
         redirectAttributes.addFlashAttribute(FLASH_ATTR_SUCCESS_MESSAGE, "Product successfully added");
-        return "redirect:" + "/products/add/";
+        return "redirect:/products/add/";
     }
 
     @PostMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -86,13 +93,15 @@ public class ProductController {
                                   BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
-                redirectAttributes.addFlashAttribute(FLASH_ATTR_ERROR_MESSAGE, bindingResult.getFieldError().getDefaultMessage());
-                return "redirect:" + "/products/{id}/";
+                redirectAttributes.addFlashAttribute(FLASH_ATTR_ERROR_MESSAGE,
+                        ofNullable(bindingResult.getFieldError())
+                                .map(FieldError::getDefaultMessage).orElse("error"));
+                return "redirect:/products/{id}/";
             }
             productItem.setId(id);
             service.updateProductById(id, productItem);
             redirectAttributes.addFlashAttribute(FLASH_ATTR_SUCCESS_MESSAGE, "Successfully updated");
-            return "redirect:" + "/products/";
+            return "redirect:/products/";
         } catch (Exception e) {
             return notFound;
         }
@@ -101,6 +110,6 @@ public class ProductController {
     @PostMapping(path = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String deleteById(@PathVariable("id") Long id) {
         service.deleteProductById(id);
-        return "redirect:" + "/products/";
+        return "redirect:/products/";
     }
 }

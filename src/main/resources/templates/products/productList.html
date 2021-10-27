@@ -20,16 +20,16 @@
         <div class="container" id="centerContent">
             <div class="alert alert-primary" role="alert" th:text="${successMessage}" th:if="${successMessage}"></div>
             <span class="pageTitle">Product List</span>
-            <table class="table table-fluid table-bordered table-condensed table-striped table-hover" id="example">
+            <table aria-label="product-list" class="table table-fluid table-bordered table-condensed table-striped table-hover" id="example">
                 <thead class="head">
                 <tr>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Discount</th>
-                    <th>Available</th>
-                    <th>Final Price</th>
-                    <th>Description</th>
+                    <th id="name">Name</th>
+                    <th id="category">Category</th>
+                    <th id="price">Price</th>
+                    <th id="discount">Discount</th>
+                    <th id="available">Available</th>
+                    <th id="final-price">Final Price</th>
+                    <th id="description">Description</th>
                 </tr>
                 </thead>
                 <tbody>

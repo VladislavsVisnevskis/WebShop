@@ -36,23 +36,23 @@
             <div class="d-flex justify-content-center align-self-center p-5" id="addRelationForm"
                  style="background:#FFFFFF">
                 <form action="#" th:action="@{/products/add}" th:object="${productItem}" method="POST">
-                    <table>
+                    <table aria-label="product-page">
                         <tr>
-                            <th>
+                            <th id="name">
                                 <div class="drop p-2 text-center">
                                     <p class="drop-title">Name</p>
                                     <input type="text" class="drop-down form-control form-border form-width form-height"
                                            th:field="*{name}" id="name" name="name">
                                 </div>
                             </th>
-                            <th>
+                            <th id="price">
                                 <div class="drop p-2 text-center">
                                     <p class="drop-title">Price</p>
                                     <input type="text" class="drop-down form-control form-border form-width form-height"
                                            th:field="*{price}" id="price" name="price">
                                 </div>
                             </th>
-                            <th>
+                            <th id="category">
                                 <div class="drop p-2 text-center">
                                     <p class="drop-title">Category</p>
                                     <select class="drop-down form-control form-border form-width form-height"
@@ -62,21 +62,21 @@
                                     </select>
                                 </div>
                             </th>
-                            <th>
+                            <th id="discount">
                                 <div class="drop p-2 text-center">
                                     <p class="drop-title">Discount</p>
                                     <input type="text" class="drop-down form-control form-border form-width form-height"
                                            th:field="*{discount}" id="discount" name="discount">
                                 </div>
                             </th>
-                            <th>
+                            <th id="count">
                                 <div class="drop p-2 text-center">
                                     <p class="drop-title">Count</p>
                                     <input type="text" class="drop-down form-control form-border form-width form-height"
                                            th:field="*{count}" id="count" name="count">
                                 </div>
                             </th>
-                            <th>
+                            <th id="description">
                                 <div class="drop p-2 text-center">
                                     <p class="drop-title">Description</p>
                                     <input type="text" class="drop-down form-control form-border form-width form-height"
