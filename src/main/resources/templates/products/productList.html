@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Product List</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+</head>
+<body>
+<h3 class="text-center text-primary pt-5">Product list</h3>
+<div class="d-flex justify-content-center align-self-center p-5">
+    <div id="content">
+        <div class="container" id="centerContent">
+            <div class="alert alert-primary" role="alert" th:text="${successMessage}" th:if="${successMessage}"></div>
+            <span class="pageTitle">Product List</span>
+            <table class="table table-fluid table-bordered table-condensed table-striped table-hover" id="example">
+                <thead class="head">
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Available</th>
+                    <th>Final Price</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center clickable-row" th:each="products : ${products}"
+                    th:data-href="@{products/{id}(id=${products.id})}"
+                    th:onclick="|window.location.href='@{/products/{product_id}'(product_id=${products.id})}|">
+                    <td th:text="${products.getName()}"></td>
+                    <td th:text="${products.getCategory()}"></td>
+                    <td th:text="${products.getPrice}"></td>
+                    <td th:text="${products.getDiscount}"></td>
+                    <td th:text="${products.getCount}"></td>
+                    <td th:text="${products.getActualPrice}"></td>
+                    <td th:text="${products.getDescription}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <form action="#" style="text-align:center">
+                <button class="btn btn-primary mt-3 px-5" formaction="/products/add">Add New Product</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="overlay"></div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+
+</script>
+</body>
+</html>

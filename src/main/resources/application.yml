@@ -1,0 +1,6 @@
+services:
+
+  productListHtml: products/productList.html
+  productAddHtml: products/productAdd.html
+  productEditDelete: products/productEditDelete.html
+  notFound: products/notFound.html
